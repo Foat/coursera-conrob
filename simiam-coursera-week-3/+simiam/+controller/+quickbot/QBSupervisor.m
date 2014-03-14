@@ -64,10 +64,8 @@ classdef QBSupervisor < simiam.controller.Supervisor
             obj.prev_ticks = struct('left', 0, 'right', 0);
             
             obj.theta_d     = pi/4;
-%             obj.v           = 0.2;
-            obj.v           = 10;
-            obj.goal        = [-0.5, 1];
-%             obj.goal        = [1, 1];
+            obj.v           = 0.2;
+            obj.goal        = [-1, 1];
             obj.d_stop      = 0.05;
             
             obj.p = simiam.util.Plotter();
@@ -93,11 +91,6 @@ classdef QBSupervisor < simiam.controller.Supervisor
             outputs = obj.current_controller.execute(obj.robot, obj.state_estimate, inputs, dt);
                 
             [vel_r, vel_l] = obj.ensure_w(obj.robot, outputs.v, outputs.w);
-            
-            [v_limited, w_limited] = obj.robot.dynamics.diff_to_uni(vel_r, vel_l);
-            fprintf('(v,w) = (%0.3f,%0.3f), (v_limited,w_limited) = (%0.3f, %0.3f)\n', ...
-                    outputs.v, outputs.w, v_limited, w_limited);
-            
             obj.robot.set_wheel_speeds(vel_r, vel_l);
                         
             obj.update_odometry();
@@ -139,14 +132,13 @@ classdef QBSupervisor < simiam.controller.Supervisor
             % 4. Shift vel_r and vel_l if they exceed max/min vel
             
             %% START CODE BLOCK %%
-            mx = max(vel_r_d, vel_l_d) - obj.robot.max_vel; 
-            mn = min(vel_r_d, vel_l_d) + obj.robot.max_vel;
+            
             if (vel_rl_max > obj.robot.max_vel)
-                vel_r = vel_r_d - mx;
-                vel_l = vel_l_d - mx;
+                vel_r = vel_r_d - 0;
+                vel_l = vel_l_d - 0;
             elseif (vel_rl_min < -obj.robot.max_vel)
-                vel_r = vel_r_d - mn;
-                vel_l = vel_l_d - mn;
+                vel_r = vel_r_d - 0;
+                vel_l = vel_l_d - 0;
             else
                 vel_r = vel_r_d;
                 vel_l = vel_l_d;

@@ -194,8 +194,9 @@ classdef QuickBot < simiam.robot.Robot
             
             %% START CODE BLOCK %%
             
-            ir_voltages = ir_array_values / 500;
-            coeff = [-0.0182    0.1690   -0.6264    1.1853   -1.2104    0.6293];            
+            ir_voltages = ir_array_values;
+            coeff = [0 0 0 0 0];
+            
             %% END CODE BLOCK %%
             
             ir_distances = polyval(coeff, ir_voltages);

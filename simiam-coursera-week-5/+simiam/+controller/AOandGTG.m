@@ -72,10 +72,8 @@ classdef AOandGTG < simiam.controller.Controller
             
             %% START CODE BLOCK %%
             
-            u_aon = u_ao / sqrt(sum(u_ao.^2));
-            u_gtgn = u_gtg / sqrt(sum(u_gtg.^2));
             % 3. Blend the two vectors
-            u_ao_gtg = u_aon + (1 - 0.75) * u_gtgn;
+            u_ao_gtg = zeros(2,1);
             
             %% END CODE BLOCK %%
             

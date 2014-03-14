@@ -75,49 +75,31 @@ classdef FollowWall < simiam.controller.Controller
             d_fw = inputs.d_fw;
 
             %% START CODE BLOCK %%
+            
             % 1. Select p_2 and p_1, then compute u_fw_t
             if(strcmp(inputs.direction,'right'))
                 % Pick two of the right sensors based on ir_distances
-                ir_b = ir_distances(3:5);
-                ir_b(2) = ir_b(2) * 0.9;
-                [arr, pos] = sort(ir_b);
-                p1 = min(pos(1),pos(2)) + 2;
-                p2 = max(pos(1),pos(2)) + 2;
-            
-                p_1 = ir_distances_wf(:,p2);
-                p_2 = ir_distances_wf(:,p1);
+                p_1 = ir_distances_wf(:,1);
+                p_2 = ir_distances_wf(:,1);
             else
-                [arr, pos] = sort(ir_distances(1:3));
-                p1 = min(pos(1),pos(2));
-                p2 = max(pos(1),pos(2));
-                
-                % Pick two of the left sensors based on ir_distances                
-                p_1 = ir_distances_wf(:,p1);
-                p_2 = ir_distances_wf(:,p2);
+                % Pick two of the left sensors based on ir_distances
+                p_1 = ir_distances_wf(:,5);
+                p_2 = ir_distances_wf(:,5);
             end
-%             disp([p1 p2])
-            u_fw_t = p_2 - p_1;
+            
+            u_fw_t = [0;0];
 
             % 2. Compute u_a, u_p, and u_fw_tp to compute u_fw_p
             
-            u_fw_tp = u_fw_t/sum(u_fw_t.^2).^.5;
-            u_a = p_1;
-            u_p = [x;y];
+            u_fw_tp = [0;0];
+            u_a = [0;0];
+            u_p = [0;0];
             
-            u_fw_p = (u_a - u_p) - (u_a - u_p)'*u_fw_tp*u_fw_tp;
+            u_fw_p = [0;0];
             
             % 3. Combine u_fw_tp and u_fw_pp into u_fw;
-            u_fw_pp = u_fw_p - d_fw * u_fw_p / sum(u_fw_p.^2).^.5;
-            
-            if arr(1) < 0.1
-                beta = -(arr(1) + arr(2)) * 5;
-            else
-                beta = (arr(1) + arr(2));
-            end
-            u_fw = u_fw_tp + u_fw_pp * beta * 3;
-%             u_fw = u_fw_t;
-            
-%             u_fw = u_fw_pp;
+            u_fw_pp = [0;0];
+            u_fw = u_fw_tp;
             
             %% END CODE BLOCK %%
             

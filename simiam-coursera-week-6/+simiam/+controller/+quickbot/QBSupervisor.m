@@ -95,7 +95,7 @@ classdef QBSupervisor < simiam.controller.Supervisor
             
             %% START CODE BLOCK %%
             obj.d_fw        = 0.1;
-            obj.fw_direction   = 'right';
+            obj.fw_direction   = 'left';
             %% END CODE BLOCK %%
             
             obj.is_blending = true;
